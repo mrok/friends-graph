@@ -1,0 +1,4 @@
+mrok_graph:
+    resource: "@MrokGraphBundle/Controller/"
+    type:     annotation
+    prefix:   /

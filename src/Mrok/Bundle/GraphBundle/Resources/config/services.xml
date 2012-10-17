@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <service id="mrok_graph_bundle.neo4j.client" class="Mrok\Bundle\GraphBundle\Service\Client">
+            <argument>%neo4j_host%</argument>
+            <argument>%neo4j_port%</argument>
+        </service>
+    </services>
+</container>

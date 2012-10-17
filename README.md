@@ -16,3 +16,4 @@ curl -s http://getcomposer.org/installer | php
 8. TODO
 - vizualize graph
 - remove duplicated relation
+- store user in db

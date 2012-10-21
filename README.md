@@ -17,3 +17,8 @@ curl -s http://getcomposer.org/installer | php
 - vizualize graph
 - remove duplicated relation
 - store user in db
+
+
+
+Tips:
+Neo4j is easy accessible on heroku

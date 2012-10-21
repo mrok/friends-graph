@@ -1,0 +1,24 @@
+{% extends 'MrokGraphBundle::layout.html.twig' %}
+
+
+{% block content %}
+<div class="row">
+    <div class="span2">
+        <div class="well">
+            {% block left_column %}
+
+            {% endblock %}
+        </div>
+    </div>
+    <div class="span10">
+        <div class="well">
+            {% block right_column %}
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/blog">Blog</a></li>
+            </ul>
+            {% endblock %}
+        </div>
+    </div>
+</div>
+{% endblock %}

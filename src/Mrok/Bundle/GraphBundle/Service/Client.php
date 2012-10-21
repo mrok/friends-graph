@@ -12,9 +12,18 @@ class Client
      */
     protected $client;
 
-    public function __construct($host, $port)
+    /**
+     * @param string $host
+     * @param int $port
+     * @param string|null $username
+     * @param string|null $password
+     */
+    public function __construct($host, $port, $username, $password)
     {
-        $this->client = new Neo4jClient(new Transport($host, $port));
+        $transport = new Transport($host, $port);
+        $transport->setAuth($username, $password);
+
+        $this->client = new Neo4jClient($transport);
     }
 
     /**

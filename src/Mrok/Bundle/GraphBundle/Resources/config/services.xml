@@ -8,6 +8,8 @@
         <service id="mrok_graph_bundle.neo4j.client" class="Mrok\Bundle\GraphBundle\Service\Client">
             <argument>%neo4j_host%</argument>
             <argument>%neo4j_port%</argument>
+            <argument>%neo4j_user%</argument>
+            <argument>%neo4j_pass%</argument>
         </service>
     </services>
 </container>

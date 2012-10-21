@@ -12,6 +12,11 @@ use Everyman\Neo4j\Relationship;
 
 class Neo4jPopulateCommand extends ContainerAwareCommand
 {
+    /**
+     * @var OutputInterface
+     */
+    private $output = null;
+
     protected function configure()
     {
         $this
@@ -21,35 +26,75 @@ class Neo4jPopulateCommand extends ContainerAwareCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->output = $output;
+
+        $loadedData = require __DIR__ . '/../Fixtures/data.php';
+        $output->writeln('Nodes to import ' . count($loadedData));
+
+        $savedNodes = $this->persistNodes($loadedData);
+        $this->persistRelations($loadedData, $savedNodes);
+
+        $output->writeln('Finish');
+    }
+
+    /**
+     * Persist nodes into db
+     * @param array $nodes
+     *
+     * @return array of saved nodes, keys in array are user ids
+     */
+    private function persistNodes($nodes)
+    {
         /**
          * @var \Everyman\Neo4j\Client
          */
         $client = $translator = $this->getContainer()->get('mrok_graph_bundle.neo4j.client')->getClient();
+        $output = $this->output;
+        $savedNodes = array();
 
-        $dataToPersist = require __DIR__ . '/../Fixtures/data.php';
-        $nodeList = array();
+        for ($i = 0, $count = count($nodes); $i < $count; $i++) {
+            $person = $nodes[$i];
 
-        ##add nodes
-        foreach ($dataToPersist as $person) {
+            $person['user_id'] = $person['id']; //follow the coding standards
+            $person['first_name'] = $person['firstName']; //follow the coding standards
+            unset($person['friends'], $person['id'], $person['firstName']);
+
             $node = new Node($client);
-
-            unset($person['friends']);
             $node->setProperties($person)->save();
 
-            $nodeList[$person['id']] = $node;
-            $output->writeln($person['firstName'] . ' ' . $person['surname'] . ' added to graph');
+            $savedNodes[$person['user_id']] = $node;
+            $output->writeln('Node ' . ($i + 1) . ' ' . $person['first_name'] . ' ' . $person['surname'] . ' added to graph');
         }
 
-        foreach ($dataToPersist as $person) {
-            $node = $nodeList[$person['id']];
-            foreach ($person['friends'] as $friendId) {
-                $node->relateTo($nodeList[$friendId], 'know')->save();
+        return $savedNodes;
+    }
 
-                $output->writeln($node->getProperty('firstName') . ' knows ' . $nodeList[$friendId]->getProperty('firstName'));
+    /**
+     * Save relation in db
+     * @param array $relations
+     * @param array $nodes
+     */
+    private function persistRelations($relations, $nodes)
+    {
+        $output = $this->output;
+        $output->writeln('Saving relations');
+        $storedRelations = array();
+
+        foreach ($relations as $person) {
+            $uId = $person['id'];
+            $user = $nodes[$uId];
+
+            foreach ($person['friends'] as $fId) {
+                $relationPattern = $uId . '-' . $fId;
+                $relationPatternReverse = $fId . '-' . $uId;
+                if (!in_array($relationPatternReverse, $storedRelations)) {
+                    $friend = $nodes[$fId];
+                    $user->relateTo($friend, 'knows')->save();
+
+                    $storedRelations[] = $relationPattern;
+                    $output->writeln($user->getProperty('first_name') . ' knows ' . $friend->getProperty('first_name'));
+                }
             }
         }
-
-        $output->writeln('Finish');
     }
 }
-

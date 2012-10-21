@@ -8,6 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Everyman\Neo4j\Node;
+use Everyman\Neo4j\Index\NodeIndex;
 use Everyman\Neo4j\Relationship;
 
 class Neo4jPopulateCommand extends ContainerAwareCommand
@@ -33,6 +34,7 @@ class Neo4jPopulateCommand extends ContainerAwareCommand
 
         $savedNodes = $this->persistNodes($loadedData);
         $this->persistRelations($loadedData, $savedNodes);
+        $this->createNodeIndex($savedNodes);
 
         $output->writeln('Finish');
     }
@@ -48,7 +50,7 @@ class Neo4jPopulateCommand extends ContainerAwareCommand
         /**
          * @var \Everyman\Neo4j\Client
          */
-        $client = $translator = $this->getContainer()->get('mrok_graph_bundle.neo4j.client')->getClient();
+        $client = $this->getContainer()->get('mrok_graph_bundle.neo4j.client')->getClient();
         $output = $this->output;
         $savedNodes = array();
 
@@ -57,6 +59,7 @@ class Neo4jPopulateCommand extends ContainerAwareCommand
 
             $person['user_id'] = $person['id']; //follow the coding standards
             $person['first_name'] = $person['firstName']; //follow the coding standards
+            $person['__type'] = 'user';
             unset($person['friends'], $person['id'], $person['firstName']);
 
             $node = new Node($client);
@@ -70,7 +73,7 @@ class Neo4jPopulateCommand extends ContainerAwareCommand
     }
 
     /**
-     * Save relation in db
+     * Save relationships in db
      * @param array $relations
      * @param array $nodes
      */
@@ -96,5 +99,27 @@ class Neo4jPopulateCommand extends ContainerAwareCommand
                 }
             }
         }
+    }
+
+    /**
+     * Add nodes to index
+     * @param array $nodes
+     */
+    private function createNodeIndex($nodes)
+    {
+        $this->output->writeln('Creating index');
+        /**
+         * @var \Everyman\Neo4j\Client
+         */
+        $client = $this->getContainer()->get('mrok_graph_bundle.neo4j.client')->getClient();
+
+        $index = new NodeIndex($client, 'Users');
+        $index->save();
+
+        foreach ($nodes as $user) {
+            $index->add($user, 'user_id', $user->getProperty('user_id'));
+            $index->add($user, 'type', $user->getProperty('__type'));
+        }
+        $index->save();
     }
 }

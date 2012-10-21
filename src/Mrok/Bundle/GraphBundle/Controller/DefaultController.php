@@ -5,6 +5,7 @@ namespace Mrok\Bundle\GraphBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Everyman\Neo4j\Cypher\Query;
 
 class DefaultController extends Controller
 {
@@ -14,8 +15,7 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        $name = 'neo4j test';
-        return array('name' => $name);
+        return array();
     }
 
     /**

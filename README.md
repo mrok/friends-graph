@@ -14,9 +14,8 @@ curl -s http://getcomposer.org/installer | php
 >     neo4j_port: 7474
 7. Run Symfony console and execute neo4j:load-data
 8. TODO
-- vizualize graph
-- remove duplicated relation
-- store user in db
+- setup heroku
+
 
 
 

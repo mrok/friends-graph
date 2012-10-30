@@ -33,4 +33,16 @@ class Client
     {
         return $this->client;
     }
+
+    /**
+     * @param $repository
+     */
+    public function getRepository($class)
+    {
+        $class = 'Mrok\Bundle\GraphBundle\Repository\\' . $class . 'Repository';
+        $repository = new $class();
+        $repository->setNeo4Client($this->client);
+
+        return $repository;
+    }
 }

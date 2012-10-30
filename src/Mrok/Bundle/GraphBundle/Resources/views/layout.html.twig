@@ -5,10 +5,16 @@
     <title>Graph</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.1.1/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/d3/2.10.0/d3.v2.min.js"></script>
-
+    <script src="{{ app.request.getBasePath()}}/bundles/mrokgraph/js/user-selector.js"></script>
+    <script>
+        var app = window.app || {};
+        app.config = {
+            basePath: '{{ app.request.getBasePath()}}'
+        }
+    </script>
     <link href="{{ app.request.getBasePath()}}/bundles/mrokgraph/css/bootstrap.min.css" rel="stylesheet">
-
+    {% block head %}
+    {% endblock %}
 </head>
 <body>
 <div class="container">

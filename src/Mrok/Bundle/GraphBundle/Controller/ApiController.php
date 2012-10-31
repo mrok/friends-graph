@@ -31,4 +31,19 @@ class ApiController extends FOSRestController
         return $this->handleView($view);
     }
 
+    /**
+     * @Route("/connected/{userId}", name="api_get_connected")
+     * @Method("GET")
+     */
+    public function connectedUserAction($userId)
+    {
+        $repository = $this->get('mrok_graph_bundle.neo4j.client')->getRepository('User');
+        $data = $repository->getConnectedUsers($userId);
+
+        $view = $this->view($data, 200)
+            ->setFormat('json');
+
+        return $this->handleView($view);
+    }
+
 }

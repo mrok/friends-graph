@@ -27,4 +27,26 @@ class UserRepository extends BaseRepository
         return $out;
     }
 
+    /**
+     * Return nodes connected directly to specific user - show user friends
+     * @param $userId - int
+     *
+     * @return array
+     */
+    public function getConnectedUsers($userId)
+    {
+        $queryString = 'START person=node(' . $userId . ')
+                        MATCH person-[KNOWS]-friend
+                        RETURN friend';
+        $query = new Query($this->noe4jClient, $queryString);
+        $result = $query->getResultSet();
+
+        $out = array();
+        foreach ($result as $node) {
+            $out[] = $node['friend']->getProperties();
+        }
+
+        return $out;
+    }
+
 }

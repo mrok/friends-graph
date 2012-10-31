@@ -1,5 +1,16 @@
 {% extends 'MrokGraphBundle::layout_2_columns.html.twig' %}
 
 {% block head %}
-    <script src="{{ app.request.getBasePath()}}/bundles/mrokgraph/js/app-direct-friends.js"></script>
+<script src="{{ app.request.getBasePath()}}/bundles/mrokgraph/js/app-direct-friends.js"></script>
+{% endblock %}
+
+
+{% block right_column %}
+<img src="{{ app.request.getBasePath()}}/bundles/mrokgraph/images/ajax-loader.gif" id="result-loader" class="hide"/>
+<div id="result-block" class="hide">
+    <h4>Direct friends</h4>
+    <ul></ul>
+</div>
+<br/>
+<img src="{{ app.request.getBasePath()}}/bundles/mrokgraph/images/graph.png">
 {% endblock %}

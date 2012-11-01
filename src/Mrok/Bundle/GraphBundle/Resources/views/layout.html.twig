@@ -5,7 +5,11 @@
     <title>Graph</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.1.1/bootstrap.min.js"></script>
+    <script src="{{ app.request.getBasePath()}}/bundles/mrokgraph/js/spine.js"></script>
+    <script src="{{ app.request.getBasePath()}}/bundles/mrokgraph/js/route.js"></script>
+    <script src="{{ app.request.getBasePath()}}/bundles/mrokgraph/js/manager.js"></script>
     <script src="{{ app.request.getBasePath()}}/bundles/mrokgraph/js/user-selector.js"></script>
+    <script src="{{ app.request.getBasePath()}}/bundles/mrokgraph/js/app.js"></script>
     <script>
         var app = window.app || {};
         app.config = {
@@ -13,8 +17,6 @@
         }
     </script>
     <link href="{{ app.request.getBasePath()}}/bundles/mrokgraph/css/bootstrap.min.css" rel="stylesheet">
-    {% block head %}
-    {% endblock %}
 </head>
 <body>
 <div class="container">
@@ -22,9 +24,9 @@
         <div class="navbar-inner">
             <a class="brand" href="{{url('home')}}">Home</a>
             <ul class="nav">
-                <li><a href="{{url('direct_friends')}}">Direct friends</a></li>
-                <li><a href="{{url('friends_of_friends')}}">Friends of friends</a></li>
-                <li><a href="{{url('suggested_friends')}}">Suggested friends</a></li>
+                <li><a href="{{url('direct_friends')}}#friends/direct">Direct friends</a></li>
+                <li><a href="{{url('friends_of_friends')}}#friends/friends">Friends of friends</a></li>
+                <li><a href="{{url('suggested_friends')}}#friends/suggested">Suggested friends</a></li>
             </ul>
         </div>
     </div>

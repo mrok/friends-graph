@@ -12,6 +12,15 @@
     <div class="span8">
         <div class="well">
             {% block right_column %}
+            <img src="{{ app.request.getBasePath()}}/bundles/mrokgraph/images/ajax-loader.gif" id="result-loader"
+                 class="hide"/>
+
+            <div id="result-block" class="hide">
+                <h4>{{pageHeader}}</h4>
+                <ul></ul>
+            </div>
+            <br/>
+            <img src="{{ app.request.getBasePath()}}/bundles/mrokgraph/images/graph.png">
             {% endblock %}
         </div>
     </div>

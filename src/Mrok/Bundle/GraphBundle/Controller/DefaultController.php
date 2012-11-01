@@ -20,25 +20,25 @@ class DefaultController extends Controller
 
     /**
      * @Route("/friends/direct", name="direct_friends")
-     * @Template("MrokGraphBundle:Default:direct-friends.html.twig")
+     * @Template("MrokGraphBundle:Default:friends.html.twig")
      */
     public function directFriendsAction()
     {
-        return array();
+        return array('pageHeader' => 'Direct Friends');
     }
 
     /**
      * @Route("/friends/friends", name="friends_of_friends")
-     * @Template("MrokGraphBundle:Default:direct-friends.html.twig")
+     * @Template("MrokGraphBundle:Default:friends.html.twig")
      */
-    public function frinedsOfFriendsAction()
+    public function friendsOfFriendsAction()
     {
-        return array();
+        return array('pageHeader' => 'Friends of Friends');
     }
 
     /**
      * @Route("/friends/suggested", name="suggested_friends")
-     * @Template("MrokGraphBundle:Default:direct-friends.html.twig")
+     * @Template("MrokGraphBundle:Default:friends.html.twig")
      */
     public function suggestedFriendsAction()
     {

@@ -46,4 +46,19 @@ class ApiController extends FOSRestController
         return $this->handleView($view);
     }
 
+    /**
+     * @Route("/friends-of-friends/{userId}", name="api_get_friends_of_friends")
+     * @Method("GET")
+     */
+    public function friendsOfFriendsAction($userId)
+    {
+        $repository = $this->get('mrok_graph_bundle.neo4j.client')->getRepository('User');
+        $data = $repository->getFriendsOfFriends($userId);
+
+        $view = $this->view($data, 200)
+            ->setFormat('json');
+
+        return $this->handleView($view);
+    }
+
 }

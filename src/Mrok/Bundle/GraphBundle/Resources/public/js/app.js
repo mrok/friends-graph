@@ -39,7 +39,7 @@ $(function () {
                     app.views["get-user-list"](app.config.basePath + '/api/friends-of-friends/');
                 },
                 "friends/suggested":function () {
-//                    app.views["get-user-list"](app.config.basePath + '/api/friends-of-friends/');
+                    app.views["get-user-list"](app.config.basePath + '/api/suggested-friends/');
                 }
             })
         }
@@ -47,4 +47,8 @@ $(function () {
 
     Spine.Route.setup();
     new SApp();
+
+    if (app.config.startAction) {
+        window.location.href = window.location.href + '#' + app.config.startAction;
+    }
 });

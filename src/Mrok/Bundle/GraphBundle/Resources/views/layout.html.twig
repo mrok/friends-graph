@@ -13,7 +13,8 @@
     <script>
         var app = window.app || {};
         app.config = {
-            basePath: '{{ app.request.getBasePath()}}'
+            basePath:'{{ app.request.getBasePath()}}',
+            startAction:'{% if startAction is defined %}{{ startAction }}{% endif %}'
         }
     </script>
     <link href="{{ app.request.getBasePath()}}/bundles/mrokgraph/css/bootstrap.min.css" rel="stylesheet">
@@ -24,9 +25,9 @@
         <div class="navbar-inner">
             <a class="brand" href="{{url('home')}}">Home</a>
             <ul class="nav">
-                <li><a href="{{url('direct_friends')}}#friends/direct">Direct friends</a></li>
-                <li><a href="{{url('friends_of_friends')}}#friends/friends">Friends of friends</a></li>
-                <li><a href="{{url('suggested_friends')}}#friends/suggested">Suggested friends</a></li>
+                <li><a href="{{url('direct_friends')}}">Direct friends</a></li>
+                <li><a href="{{url('friends_of_friends')}}">Friends of friends</a></li>
+                <li><a href="{{url('suggested_friends')}}">Suggested friends</a></li>
             </ul>
         </div>
     </div>

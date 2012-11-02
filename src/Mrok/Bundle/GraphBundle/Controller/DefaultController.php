@@ -24,7 +24,7 @@ class DefaultController extends Controller
      */
     public function directFriendsAction()
     {
-        return array('pageHeader' => 'Direct Friends');
+        return array('pageHeader' => 'Direct Friends', 'startAction'=> 'friends/direct');
     }
 
     /**
@@ -33,7 +33,7 @@ class DefaultController extends Controller
      */
     public function friendsOfFriendsAction()
     {
-        return array('pageHeader' => 'Friends of Friends');
+        return array('pageHeader' => 'Friends of Friends', 'startAction'=> 'friends/friends');
     }
 
     /**
@@ -42,6 +42,6 @@ class DefaultController extends Controller
      */
     public function suggestedFriendsAction()
     {
-        return array();
+        return array('pageHeader' => 'Suggested friends', 'startAction'=> 'friends/suggested');
     }
 }

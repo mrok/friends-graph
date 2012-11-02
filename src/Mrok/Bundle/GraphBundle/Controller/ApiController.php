@@ -21,14 +21,12 @@ class ApiController extends FOSRestController
      */
     public function indexAction()
     {
+        $fun = function($repository)
+        {
+            return $repository->getAllUsers();
+        };
 
-        $repository = $this->get('mrok_graph_bundle.neo4j.client')->getRepository('User');
-        $data = $repository->getAllUsers();
-
-        $view = $this->view($data, 200)
-            ->setFormat('json');
-
-        return $this->handleView($view);
+        return $this->obtainUserData($fun);
     }
 
     /**
@@ -37,13 +35,12 @@ class ApiController extends FOSRestController
      */
     public function connectedUserAction($userId)
     {
-        $repository = $this->get('mrok_graph_bundle.neo4j.client')->getRepository('User');
-        $data = $repository->getConnectedUsers($userId);
+        $fun = function($repository) use ($userId)
+        {
+            return $repository->getConnectedUsers($userId);
+        };
 
-        $view = $this->view($data, 200)
-            ->setFormat('json');
-
-        return $this->handleView($view);
+        return $this->obtainUserData($fun);
     }
 
     /**
@@ -52,13 +49,12 @@ class ApiController extends FOSRestController
      */
     public function friendsOfFriendsAction($userId)
     {
-        $repository = $this->get('mrok_graph_bundle.neo4j.client')->getRepository('User');
-        $data = $repository->getFriendsOfFriends($userId);
+        $fun = function($repository) use ($userId)
+        {
+            return $repository->getFriendsOfFriends($userId);
+        };
 
-        $view = $this->view($data, 200)
-            ->setFormat('json');
-
-        return $this->handleView($view);
+        return $this->obtainUserData($fun);
     }
 
     /**
@@ -67,8 +63,24 @@ class ApiController extends FOSRestController
      */
     public function suggestedFriendsAction($userId)
     {
+        $fun = function($repository) use ($userId)
+        {
+            return $repository->getSuggestedFriends($userId);
+        };
+
+        return $this->obtainUserData($fun);
+    }
+
+    /**
+     *
+     * @param \Closure $fun - function which accept repository as input parameter
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    private function obtainUserData(\Closure $fun)
+    {
         $repository = $this->get('mrok_graph_bundle.neo4j.client')->getRepository('User');
-        $data = $repository->getSuggestedFriends($userId);
+        $data = $fun($repository);
 
         $view = $this->view($data, 200)
             ->setFormat('json');

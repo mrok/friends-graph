@@ -19,7 +19,7 @@ class ApiController extends FOSRestController
      * @Route("/users", name="api_get_all")
      * @Method("GET")
      */
-    public function indexAction()
+    public function allUsersAction()
     {
         $fun = function($repository)
         {
@@ -33,8 +33,9 @@ class ApiController extends FOSRestController
      * @Route("/connected/{userId}", name="api_get_connected")
      * @Method("GET")
      */
-    public function connectedUserAction($userId)
+    public function directFriendsAction($userId)
     {
+        $userId = intval($userId);
         $fun = function($repository) use ($userId)
         {
             return $repository->getConnectedUsers($userId);
@@ -49,6 +50,7 @@ class ApiController extends FOSRestController
      */
     public function friendsOfFriendsAction($userId)
     {
+        $userId = intval($userId);
         $fun = function($repository) use ($userId)
         {
             return $repository->getFriendsOfFriends($userId);
@@ -63,6 +65,7 @@ class ApiController extends FOSRestController
      */
     public function suggestedFriendsAction($userId)
     {
+        $userId = intval($userId);
         $fun = function($repository) use ($userId)
         {
             return $repository->getSuggestedFriends($userId);

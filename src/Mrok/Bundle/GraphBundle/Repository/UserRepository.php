@@ -74,7 +74,7 @@ class UserRepository extends BaseRepository
                         WHERE (person <> fof) AND not(person-[KNOWS*1]-fof)
                         WITH fof, count(*) as commonf
                         WHERE commonf >= 2
-                        RETURN  fof';
+                        RETURN fof';
 
         return $this->queryAndExtractUserData($queryString, 'fof');
     }

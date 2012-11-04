@@ -30,7 +30,7 @@ class UserRepository extends BaseRepository
      */
     public function getConnectedUsers($userId)
     {
-        $queryString = 'START person=node:Users(user_id="' .$userId .'")
+        $queryString = 'START person=node:Users(user_id="' .(int)$userId .'")
                         MATCH person-[KNOWS]-friends
                         RETURN friends';
         $query = new Query($this->noe4jClient, $queryString);
@@ -52,7 +52,7 @@ class UserRepository extends BaseRepository
      */
     public function getFriendsOfFriends($userId)
     {
-        $queryString = 'START person=node:Users(user_id="' .$userId .'")
+        $queryString = 'START person=node:Users(user_id="' .(int)$userId .'")
                         MATCH person-[KNOWS*2]-fof
                         WHERE (person <> fof) AND not(person-[KNOWS*1]-fof)
                         RETURN DISTINCT fof';
@@ -69,7 +69,7 @@ class UserRepository extends BaseRepository
      */
     public function getSuggestedFriends($userId)
     {
-        $queryString = 'START person=node:Users(user_id="' .$userId .'")
+        $queryString = 'START person=node:Users(user_id="' .(int)$userId .'")
                         MATCH person-[KNOWS*2]-fof
                         WHERE (person <> fof) AND not(person-[KNOWS*1]-fof)
                         WITH fof, count(*) as commonf

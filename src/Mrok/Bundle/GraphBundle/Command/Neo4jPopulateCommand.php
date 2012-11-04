@@ -90,7 +90,7 @@ class Neo4jPopulateCommand extends ContainerAwareCommand
             foreach ($person['friends'] as $fId) {
                 $relationPattern = $uId . '-' . $fId;
                 $relationPatternReverse = $fId . '-' . $uId;
-                if (!in_array($relationPatternReverse, $storedRelations)) {
+                if (!in_array($relationPatternReverse, $storedRelations)) { //ony one way relations
                     $friend = $nodes[$fId];
                     $user->relateTo($friend, 'knows')->save();
 
